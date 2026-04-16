@@ -1,0 +1,28 @@
+
+services:
+  my-python-app:
+    build: .
+    container_name: my_running_app
+    ports:
+      - "5000:5000" 
+    command: ["python", "./gitgmail.py"]
+
+
+  db:
+    image:  postgres
+    restart:  unless-stopped
+    container_name: db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=email_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - PGDATA:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+volumes:
+     PGDATA:
+    
+
+
